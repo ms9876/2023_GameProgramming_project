@@ -1,7 +1,7 @@
 	#include "console.h"
 	#include <Windows.h>
 
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	
 	void FullScreen()
 	{
 		SetConsoleDisplayMode(GetStdHandle(STD_OUTPUT_HANDLE),
@@ -10,18 +10,21 @@
 
 	void Gotoxy(int x, int y)
 	{
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD cur = { x,y };
 		SetConsoleCursorPosition(hOut, cur);
 	}
 
 	BOOL Gotoxytest(int x, int y)
 	{
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD cur = { x,y };
 		return SetConsoleCursorPosition(hOut, cur);
 	}
 
 	void CursorSet(bool _bvis, DWORD _dwSize)
 	{
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		CONSOLE_CURSOR_INFO Curinfo;
 		Curinfo.bVisible = _bvis;
 		Curinfo.dwSize = _dwSize;
@@ -30,6 +33,7 @@
 
 	void SetColor(int _color, int _bgcolor)
 	{
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hOut, _bgcolor << 4 | _color);
 	}
 
@@ -37,6 +41,7 @@
 	{
 		CONSOLE_SCREEN_BUFFER_INFO info;
 
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		GetConsoleScreenBufferInfo(hOut, &info);
 		int color = info.wAttributes & 0xf;
 		return color;
@@ -46,6 +51,7 @@
 	{
 		CONSOLE_SCREEN_BUFFER_INFO info;
 
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		GetConsoleScreenBufferInfo(hOut, &info);
 		int color = (info.wAttributes & 0xf) >> 4;
 		return color;

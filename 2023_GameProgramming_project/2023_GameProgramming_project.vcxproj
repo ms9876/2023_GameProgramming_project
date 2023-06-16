@@ -24,9 +24,11 @@
     <ClInclude Include="StartScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Ball.h" />
     <ClCompile Include="console.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="StartScene.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

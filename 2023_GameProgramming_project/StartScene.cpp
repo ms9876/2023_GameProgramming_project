@@ -49,57 +49,32 @@ int KeyController()
 	return -1;
 }
 
-void GameInfo()
-{
-	system("cls");
-	cout << endl << endl;
-	cout << "조작법" << endl;
-	cout << "메뉴 선택 : 스페이스바" << endl;
-	cout << "바 이동 : 방향키" << endl;
-
-}
-
 int MenuDraw()
 {
-	int x = 40;
+	int key;
+	int x = 35;
 	int y = 21;
 	Gotoxy(x, y);
-	cout << "게임 시작" << endl;
+	cout << "1. 게임 시작" << endl;
 	Gotoxy(x, y + 1);
-	cout << "게임 정보" << endl;
-	Gotoxy(x, y + 2);
-	cout << "종료 하기";
+	cout << "2. 종료 하기";
 
 	while (true)
 	{
-		int ikey = KeyController();
-		switch (ikey)
+		key = KeyController();
+
+		if (key == 49)  // 1번을 누른 경우 (ASCII 코드 49는 '1'을 나타냄)
 		{
-		case (int)KEY::UP: {
-			if (y > 12) { // y는 13~14만 가능 
-				Gotoxy(x - 2, y);
-				cout << " ";
-				Gotoxy(x - 2, --y);
-				cout << ">";
-			}
+			return 1;  // 게임 시작
 		}
-						 break;
-		case (int)KEY::DOWN: {
-			if (y < 14) { // y는 13~14만 가능 
-				Gotoxy(x - 2, y);
-				cout << " ";
-				Gotoxy(x - 2, ++y);
-				cout << ">";
-			}
+		else if (key == 50)  // 2번을 누른 경우 (ASCII 코드 50는 '2'를 나타냄)
+		{
+			return 2;  // 종료
 		}
-						   break;
-		case (int)KEY::SPACEBAR: {
-			return y - 12;
-		}
-							   break;
-		default:
+		else {
 			break;
 		}
 	}
+
 	return 0;
 }

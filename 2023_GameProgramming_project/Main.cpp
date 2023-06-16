@@ -3,10 +3,18 @@
 #include<mmsystem.h>
 #include"StartScene.h"
 #include"console.h"
+#include "GameLogic.h"
+#include "Ball.h"
 
 using namespace std;
 
 int main() {
+	char cMaze[VERTICAL][HORIZON] = {};
+	PLAYER tPlayer = {};
+	POS tStartpos = {};
+	Ball ball{};
+	Init(cMaze, &tPlayer, &tStartpos);	
+
 	while (true)
 	{
 		system("cls");
@@ -15,8 +23,6 @@ int main() {
 		if (iMenu == 0)
 			break;
 		else if (iMenu == 1)
-			GameInfo();
-		else if (iMenu == 2)
 		{
 			// 게임 종료.
 			cout << "게임을 종료합니다." << endl;
@@ -28,4 +34,18 @@ int main() {
 			return 0;
 		}
 	}
+
+	system("cls");
+	Render(cMaze, &tPlayer);
+	while (true)
+	{
+		Gotoxy(0, 0);
+		Update(cMaze, &tPlayer);
+		Sleep(1000);
+
+		BallInit(ball);
+		BallUpdate(ball);
+		BallUpdate(ball);
+	}
+
 }

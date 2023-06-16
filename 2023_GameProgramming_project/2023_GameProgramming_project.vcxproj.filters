@@ -33,7 +33,13 @@
     <ClCompile Include="StartScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="GameLogic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.h">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
