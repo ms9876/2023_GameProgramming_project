@@ -68,3 +68,4 @@
 		font.dwFontSize.Y = _sizey;
 		SetCurrentConsoleFontEx(hout, false, &font);
 	}
+

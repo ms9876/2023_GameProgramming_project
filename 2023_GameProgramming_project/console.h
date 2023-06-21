@@ -14,3 +14,4 @@ void CursorSet(bool, DWORD);
 void SetColor(int, int);
 int GetColor();
 int GetbgColor();
+void fontsize(UINT _weight, UINT _sizex, UINT _sizey);

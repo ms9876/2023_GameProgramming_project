@@ -13,8 +13,6 @@ void BallInit(Ball& ball)
     ball.dirX = 1.f;
     ball.dirY = 1.f;
     ball.go = false;
-
-
 }
 
 void BallUpdate(Ball& ball)
@@ -33,7 +31,6 @@ void BallUpdate(Ball& ball)
         if (ball.y <= 0 || ball.y >= SCREEN_HEIGHT - 1)
             ball.dirY *= -1;
     }
-    
 }
 
 void BallRender(const Ball& ball)
@@ -45,7 +42,7 @@ void BallRender(const Ball& ball)
         for (int x = 0; x < SCREEN_WIDTH; ++x)
         {
             if (x == static_cast<int>(ball.x) && y == static_cast<int>(ball.y))
-                screenBuffer += "¤·";
+                screenBuffer += "O";
             else
                 screenBuffer += " ";
         }
@@ -53,7 +50,7 @@ void BallRender(const Ball& ball)
         screenBuffer += "\n";
     }
 
-    system("cls"); 
+    system("cls");
 
     std::cout << screenBuffer;
 }
