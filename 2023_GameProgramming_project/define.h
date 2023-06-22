@@ -17,3 +17,5 @@ enum class STAGE_TYPE
 	END = '5'
 };
 
+const int HORIZON = 29;
+const int VERTICAL = 28;

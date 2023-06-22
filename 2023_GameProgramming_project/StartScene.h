@@ -5,4 +5,3 @@ enum class KEY {
 void GameTitle();
 int KeyController();
 int MenuDraw();
-int StageClear();

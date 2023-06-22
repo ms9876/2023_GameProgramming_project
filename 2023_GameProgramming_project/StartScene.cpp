@@ -97,29 +97,4 @@ int MenuDraw()
 	return key;
 }
 
-int StageClear()
-{
-	SetColor(14, 0);
-	wcout << L"      ______   __        ________   ______   _______   	  " << endl;
-	wcout << L"     /      \ /  |      /        | /      \  /       \ 	  " << endl;
-	wcout << L"    /$$$$$$  |$$ |      $$$$$$$$/ /$$$$$$  | $$$$$$$  |	  " << endl;
-	SetColor(6, 0);
-	wcout << L"    $$ |  $$/ $$ |      $$ |__    $$ |__$$ | $$ |__$$ |	  " << endl;
-	wcout << L"    $$ |      $$ |      $$    |   $$    $$ | $$    $$< 	  " << endl;
-	wcout << L"    $$ |   __ $$ |      $$$$$/    $$$$$$$$ | $$$$$$$  |	  " << endl;
-	SetColor(14, 0);
-	wcout << L"    $$ \__/  | $$ |_____ $$ |_____ $$ |  $$ | $$ |  $$ |	  " << endl;
-	wcout << L"    $$    $$/ $$       |$$       |$$ |  $$ | $$ |  $$ |	  " << endl;
-	wcout << L"     $$$$$$/  $$$$$$$$/ $$$$$$$$/ $$/   $$/  $$/   $$/ 	  " << endl;
-	SetColor(0, 15);
 
-	int x = 10;
-	int y = 12;
-	int num;
-
-	Gotoxy(x, y);
-	cout << "다음 스테이지로 가시겠습니까? (Y/N) : ";
-	cin >> num;
-	SetColor(15, 0);
-	return num;
-}

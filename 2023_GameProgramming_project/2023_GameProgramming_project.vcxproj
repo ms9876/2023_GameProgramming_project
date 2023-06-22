@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
+    <ClInclude Include="define.h" />
     <ClInclude Include="GameLogic.h" />
     <ClInclude Include="StartScene.h" />
   </ItemGroup>

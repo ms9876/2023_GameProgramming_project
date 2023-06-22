@@ -1,6 +1,5 @@
 #include<iostream>
 #include<Windows.h>
-#include<mmsystem.h>
 #include"StartScene.h"
 #include"console.h"
 #include "GameLogic.h"
@@ -13,8 +12,12 @@ int main() {
 	BAR tPlayer = {};
 	POS tStartpos = {};
 	Ball ball{};
-
+	PBALL tball = {}; 
+	// Item..
+	
+	//Init(cMaze, &tPlayer, &tStartpos);
 	Init(cMaze, &tPlayer, &tStartpos);
+	BallInit(ball);
 	while (true)
 	{
 		system("cls");
@@ -40,11 +43,11 @@ int main() {
 	{
 		Gotoxy(0, 0);
 		Update(cMaze, &tPlayer);
-		Render(cMaze, &tPlayer);
+		BallUpdate(ball, cMaze);
+
+		Render(cMaze, &tPlayer, &ball);
 		Sleep(50);
 
-		BallInit(ball);
-		BallRender(ball);
-		BallUpdate(ball);
+		// BallRender(ball);
 	}
 } 

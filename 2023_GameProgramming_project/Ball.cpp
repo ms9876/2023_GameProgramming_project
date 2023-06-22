@@ -1,22 +1,27 @@
 #include <iostream>
 #include <Windows.h>
+#include <algorithm>
+#include <conio.h>
+#include "console.h"
+#include "GameLogic.h"
 #include "Ball.h"
 
-const int SCREEN_WIDTH = 80;
-const int SCREEN_HEIGHT = 24;
+using namespace std;
 
+BAR bar = { {13,25} };
 
 void BallInit(Ball& ball)
 {
-    ball.x = SCREEN_WIDTH / 2.f;
-    ball.y = SCREEN_HEIGHT / 2.f;
+    ball.x = bar.tpos.x;
+    ball.y = bar.tpos.y - 1; 
     ball.dirX = 1.f;
-    ball.dirY = 1.f;
+    ball.dirY = -1.f; 
     ball.go = false;
 }
 
-void BallUpdate(Ball& ball)
+void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON])
 {
+
     if (GetAsyncKeyState(VK_SPACE) & 0x8000)
         ball.go = true;
 
@@ -26,71 +31,93 @@ void BallUpdate(Ball& ball)
         ball.x += ball.dirX;
         ball.y += ball.dirY;
 
-        if (ball.x <= 0 || ball.x >= SCREEN_WIDTH - 1)
-            ball.dirX *= -1;
-        if (ball.y <= 0 || ball.y >= SCREEN_HEIGHT - 1)
-            ball.dirY *= -1;
+        int x = ball.x;
+        int y = ball.y;
+
+        x = std::clamp(x, 0, HORIZON - 2);
+        y = std::clamp(y, 0, VERTICAL - 2);
+
+
+        if (_cMaze[y][x] == '1' || _cMaze[y][x] == '2' || _cMaze[y][x] == '3' || _cMaze[y][x] == '5') { // 닿았을때
+
+            if (_cMaze[y][x] == '5')
+            {
+                ball.dirX = -ball.dirX;
+                ball.dirY = ball.dirY;
+            }
+            else if (_cMaze[y][x] == '1' || _cMaze[y][x] == '4' || _cMaze[y][x] == '2' || _cMaze[y][x] == '3')
+            {
+                ball.dirX = ball.dirX;
+                ball.dirY = -ball.dirY;
+            }
+
+            if (_cMaze[y][x] == '2' || _cMaze[y][x] == '3')
+                _cMaze[y][x] = '0';
+
+        }
+        /* else if (_cMaze[y][x] == '4') {
+             int gameover = GameOver();
+
+             if (gameover == 1)
+                 return;
+
+         }*/
     }
 }
 
-void BallRender(const Ball& ball)
+int StageClear()
 {
-    std::string screenBuffer;
-
-    for (int y = 0; y < SCREEN_HEIGHT; ++y)
-    {
-        for (int x = 0; x < SCREEN_WIDTH; ++x)
-        {
-            if (x == static_cast<int>(ball.x) && y == static_cast<int>(ball.y))
-                screenBuffer += "O";
-            else
-                screenBuffer += " ";
-        }
-
-        screenBuffer += "\n";
-    }
-
     system("cls");
 
-    std::cout << screenBuffer;
+	SetColor(14, 0);
+	wcout << L"      ______   __        ________   ______   _______   	  " << endl;
+	wcout << L"     /      \ /  |      /        | /      \  /       \ 	  " << endl;
+	wcout << L"    /$$$$$$  |$$ |      $$$$$$$$/ /$$$$$$  | $$$$$$$  |	  " << endl;
+	SetColor(6, 0);
+	wcout << L"    $$ |  $$/ $$ |      $$ |__    $$ |__$$ | $$ |__$$ |	  " << endl;
+	wcout << L"    $$ |      $$ |      $$    |   $$    $$ | $$    $$< 	  " << endl;
+	wcout << L"    $$ |   __ $$ |      $$$$$/    $$$$$$$$ | $$$$$$$  |	  " << endl;
+	SetColor(14, 0);
+	wcout << L"    $$ \__/  | $$ |_____ $$ |_____ $$ |  $$ | $$ |  $$ |	  " << endl;
+	wcout << L"    $$    $$/ $$       |$$       |$$ |  $$ | $$ |  $$ |	  " << endl;
+	wcout << L"     $$$$$$/  $$$$$$$$/ $$$$$$$$/ $$/   $$/  $$/   $$/ 	  " << endl;
+	SetColor(0, 15);
+
+	int x = 10;
+	int y = 12;
+	int num;
+
+	Gotoxy(x, y);
+	cout << "다음 스테이지로 가시겠습니까? (YSE = 1 /NO = 2) : ";
+	cin >> num;
+	SetColor(15, 0);
+	return num;
 }
 
-float dotProduct(const BallVector& v1, const BallVector& v2)
+int GameOver()
 {
-    return v1.x * v2.x + v1.y + v2.y;
+    system("cls");
+
+    SetColor(4, 0);
+    wcout << L"    ______      ______    __       __  ________     ______    __     __   ________   _______    " << endl;
+    wcout << L"   /      \    /      \  /  \     /  | /        |  /      \  /  |   /  | /        | /       \   " << endl;
+    wcout << L"  /$$$$$$    |/$$$$$$   |$$  \   /$$ | $$$$$$$$/  /$$$$$$  | $$ |   $$ | $$$$$$$$/  $$$$$$$  |  " << endl;
+    wcout << L"  $$ | _$$/  $$ |__$$  |$$$  \ /$$$ |  $$ |__     $$ |  $$ | $$ |   $$ | $$ |__     $$ |__$$ |  " << endl;
+    wcout << L"  $$ |/     |$$    $$  |$$$$  /$$$$ | $$    |    $$ |  $$ | $$  \  /$$/  $$    |    $$    $$<   " << endl;
+    wcout << L"  $$ |$$$$  |$$$$$$$$  |$$ $$ $$/$$ | $$$$$/     $$ |  $$ |  $$  /$$/   $$$$$/     $$$$$$$  |  " << endl;
+    wcout << L"  $$ \__$$   |$$ |  $$  |$$ |$$$/ $$ | $$ |_____  $$ \_ _$$ |   $$ $$/    $$ |_____  $$ |  $$ |  " << endl;
+    wcout << L"  $$    $$/  $$ |  $$  |$$ | $/  $$ | $$       | $$    $$/     $$$/     $$       | $$ |  $$ |  " << endl;
+    wcout << L"   $$$$$$/   $$/   $$/  $$/      $$/  $$$$$$$$/   $$$$$$/       $/      $$$$$$$$/  $$/   $$/   " << endl;                                                                             
+                 
+    int num;
+
+    cout << "다시 시작하려면 1을 누르세요!";
+
+    cin >> num;
+
+    if (num == 1) {
+        return 1;
+    }
+    
+    return num;
 }
-
-BallVector subtract(const BallVector& v1, const BallVector& v2)
-{
-    BallVector bv;
-    bv.x = v1.x - v2.x;
-    bv.y = v1.y - v2.y;
-    return bv;
-}
-
-float length(const BallVector& v)
-{
-    return std::sqrt(v.x * v.x + v.y * v.y);
-}
-
-BallVector normalize(const BallVector& v)
-{
-    BallVector bv;
-    float len = length(v);
-
-    bv.x = v.x / len;
-    bv.y = v.y / len;
-    return bv;
-}
-
-
-float calculateReflectionAngle(const BallVector& surfaceNormal, const BallVector& incidentVector)
-{
-    float dot = dotProduct(surfaceNormal, incidentVector);
-    float surfaceNormalLength = length(surfaceNormal);
-    float incidentVectorLength = length(incidentVector);
-    float cosTheta = dot / (surfaceNormalLength * incidentVectorLength);
-    float reflectionAngle = 2 * std::acos(cosTheta);
-    return reflectionAngle;
-}
-
