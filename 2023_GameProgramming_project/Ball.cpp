@@ -31,11 +31,33 @@ void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON])
         ball.x += ball.dirX;
         ball.y += ball.dirY;
 
-        int x = ball.x;
-        int y = ball.y;
+        float nextX = ball.x + ball.dirX;
+        float nextY = ball.y + ball.dirY;
 
-        x = std::clamp(x, 0, HORIZON - 2);
-        y = std::clamp(y, 0, VERTICAL - 2);
+        // 벽과의 충돌 감지
+        bool wallCollision = false;
+
+        if (nextX < 0 || nextX >= HORIZON)
+        {
+            ball.dirX = -ball.dirX;
+            wallCollision = true;
+        }
+
+        if (nextY < 0 || nextY >= VERTICAL)
+        {
+            ball.dirY = -ball.dirY;
+            wallCollision = true;
+        }
+
+        if (!wallCollision)
+        {
+            // 다음 위치가 유효한 범위를 벗어나는지 확인하고 clamp 처리
+            nextX = std::clamp(nextX, 0.f, static_cast<float>(HORIZON - 1));
+            nextY = std::clamp(nextY, 0.f, static_cast<float>(VERTICAL - 1));
+        }
+
+        int x = static_cast<int>(nextX);
+        int y = static_cast<int>(nextY);
 
 
         if (_cMaze[y][x] == '1' || _cMaze[y][x] == '2' || _cMaze[y][x] == '3' || _cMaze[y][x] == '5') { // 닿았을때
@@ -43,7 +65,7 @@ void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON])
             if (_cMaze[y][x] == '5')
             {
                 ball.dirX = -ball.dirX;
-                ball.dirY = ball.dirY;
+                ball.dirY = ball.dirY;                  
             }
             else if (_cMaze[y][x] == '1' || _cMaze[y][x] == '4' || _cMaze[y][x] == '2' || _cMaze[y][x] == '3')
             {

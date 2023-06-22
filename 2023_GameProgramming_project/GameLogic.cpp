@@ -38,7 +38,7 @@ void Init(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer, PPOS _pStartpos)
 	strcpy_s(_cMaze[23], "5000000000000000000000000005");
 	strcpy_s(_cMaze[24], "5000000000000000000000000005");
 	strcpy_s(_cMaze[25], "50000000000000000000000005");
-	strcpy_s(_cMaze[26], "1444444444444444444444444441");
+	strcpy_s(_cMaze[26], "5444444444444444444444444445");
 	_pStartpos->x = 13;
 	_pStartpos->y = 25;
 
