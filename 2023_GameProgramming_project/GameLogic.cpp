@@ -92,7 +92,6 @@ void Update(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer, Ball& ball, BAR& bar)
 	if (!hasBrick)
 	{
 		StageClear();
-		return;
 	}
 #pragma endregion
 
@@ -101,6 +100,8 @@ void Update(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer, Ball& ball, BAR& bar)
 void Render(char _cMaze[VERTICAL][HORIZON], PBAR _pBar, PBallPos _pBall, Item _item) {
 	for (int y = 0; y < VERTICAL; y++) {
 		for (int x = 0; x < HORIZON; x++) {
+			srand((unsigned int)time(NULL));
+			int randomColor = rand() % 15;
 			if (_pBar->tpos.x == x && _pBar->tpos.y == y) {
 				SetColor(15, 8);
 				cout << "ㅁㅁㅁ";
@@ -113,16 +114,11 @@ void Render(char _cMaze[VERTICAL][HORIZON], PBAR _pBar, PBallPos _pBall, Item _i
 			}
 			if (_item.active)
 			{
-				srand((unsigned int)time(NULL));
-				int randomColor = rand() % 15;
 				SetColor(randomColor + 1, 0);
-				_cMaze[static_cast<int>(_item.y)][static_cast<int>(_item.x)] = '★'; // 아이템을 렌더링5
+				_cMaze[static_cast<int>(_item.y)][static_cast<int>(_item.x)] = '★'; // 아이템을 렌더링
 			}
 			// 볼을 찍어주면 되는데.
 			if (_cMaze[y][x] == '0') {
-
-				srand((unsigned int)time(NULL));
-				int randomColor = rand() % 15;
 				SetColor(randomColor, 0);
 				cout << "  ";
 			}
@@ -131,7 +127,7 @@ void Render(char _cMaze[VERTICAL][HORIZON], PBAR _pBar, PBallPos _pBall, Item _i
 				cout << "■";
 			}
 			else if (_cMaze[y][x] == '2' || _cMaze[y][x] == '3') {
-				SetColor(11, 0);
+				SetColor(randomColor + 1, 0);
 				cout << "＊";
 			}
 
