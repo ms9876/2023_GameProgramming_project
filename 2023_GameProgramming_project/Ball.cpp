@@ -22,31 +22,16 @@ void BallInit(Ball& ball)
     ball.go = false;
 }
 
-void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item)
+int BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item)
 {
-
-    if (GetAsyncKeyState(VK_SPACE) & 0x8000)
-        ball.go = true;
-
+    if (GetAsyncKeyState(VK_SPACE) & 0x8000) {
+        ball.go = true; 
+    }
     if (!ball.go)
-        return;
+        return 0;
     else {
         ball.x += ball.dirX;
         ball.y += ball.dirY;
-
-        // 대각선 이동 중 옆에 2가 있는 경우 처리 - 이것도 안 되네
-        if (ball.dirX != 0 && ball.dirY != 0)
-        {
-            int nextX = static_cast<int>(ball.x + ball.dirX);
-            int nextY = static_cast<int>(ball.y + ball.dirY); 
-            int sideX = static_cast<int>(ball.x + ball.dirX); 
-
-            if (_cMaze[nextY][nextX] == '0' && _cMaze[nextY][sideX] == '2')
-            {
-                _cMaze[nextY][sideX] = '0'; 
-                ball.y -= ball.dirY; 
-            }
-        }
 
         // 공이 3에 닿았을 때 아이템 생성
         if (_cMaze[static_cast<int>(ball.y)][static_cast<int>(ball.x)] == '3')
@@ -58,6 +43,16 @@ void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item)
                 item.x = ball.x;
                 item.y = ball.y + 1;
                 item.active = true;
+            }
+
+            if (item.active)
+            {
+                item.y += 1.0f; // 아이템 이동
+
+                if (item.y >= VERTICAL - 1)
+                {
+                    item.active = false;
+                }
             }
         }
 
@@ -118,13 +113,15 @@ void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item)
                 _cMaze[y][x] = '0';
             }
         }
-        /*else if (_cMaze[y][x] == '4') {
-            int gameover = GameOver();
+        else if (_cMaze[y][x] == '4') {
+            //int gameover = 
+            PlaySound(TEXT("Gameover.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            GameOver();
 
-            if (gameover == 1)
-                return;
+            Sleep(1500);
+            return 1;
 
-        }*/
+        }
 #pragma endregion
 
     }
@@ -133,7 +130,7 @@ void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item)
 int StageClear()
 {
     system("cls");
-
+    PlaySound(TEXT("Gameclear.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	SetColor(14, 0);
 	wcout << L"      ______   __        ________   ______   _______   	  " << endl;
 	wcout << L"     /      \ /  |      /        | /      \  /       \ 	  " << endl;
@@ -148,18 +145,11 @@ int StageClear()
 	wcout << L"     $$$$$$/  $$$$$$$$/ $$$$$$$$/ $$/   $$/  $$/   $$/ 	  " << endl;
 	SetColor(0, 15);
 
-	int x = 10;
-	int y = 12;
-	int num;
-
-	Gotoxy(x, y);
-	cout << "다음 스테이지로 가시겠습니까? (YSE = 1 /NO = 2) : ";
-	cin >> num;
 	SetColor(15, 0);
-	return num;
+	return 1;
 }
 
-int GameOver()
+void GameOver()
 {
     system("cls");
 
@@ -174,15 +164,21 @@ int GameOver()
     wcout << L"  $$    $$/  $$ |  $$  |$$ | $/  $$ | $$       | $$    $$/     $$$/     $$       | $$ |  $$ |  " << endl;
     wcout << L"   $$$$$$/   $$/   $$/  $$/      $$/  $$$$$$$$/   $$$$$$/       $/      $$$$$$$$/  $$/   $$/   " << endl;                                                                             
                  
+   /* int x = 35;
+    int y = 12;
     int num;
-
-    cout << "다시 시작하려면 1을 누르세요!";
-
+    SetColor(4, 15);
+    Gotoxy(x, y);
+    cout << "다시 시작하기 : 1 ";
+    Gotoxy(x, y + 1);
+    cout << "    나가기 : 2   ";
+    Gotoxy(x, y + 2);
+    cout << "입력 : ";
     cin >> num;
 
     if (num == 1) {
         return 1;
     }
     
-    return num;
+    return num;*/
 }

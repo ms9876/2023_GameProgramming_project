@@ -18,6 +18,6 @@ typedef struct BallVector
 }BALL, * PBALL;
 
 void BallInit(Ball& ball);
-void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item);
+int BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item);
 int StageClear();
-int GameOver();
+void GameOver();

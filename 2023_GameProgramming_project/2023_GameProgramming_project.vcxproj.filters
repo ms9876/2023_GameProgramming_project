@@ -59,5 +59,11 @@
     <Media Include="collider.wav">
       <Filter>사운드</Filter>
     </Media>
+    <Media Include="Gameover.wav">
+      <Filter>사운드</Filter>
+    </Media>
+    <Media Include="Gameclear.wav">
+      <Filter>사운드</Filter>
+    </Media>
   </ItemGroup>
 </Project>
