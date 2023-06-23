@@ -11,6 +11,9 @@
     <Filter Include="소스 파일">
       <UniqueIdentifier>{3dda96ea-275d-45fc-ab13-b8b431341ba6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="사운드">
+      <UniqueIdentifier>{b5128f8a-735b-46ea-afa1-817fe54c0006}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h">
@@ -23,6 +26,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,5 +51,13 @@
     <ClCompile Include="Ball.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="collider.wav">
+      <Filter>사운드</Filter>
+    </Media>
   </ItemGroup>
 </Project>

@@ -23,7 +23,7 @@ void Init(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer, PPOS _pStartpos)
 	strcpy_s(_cMaze[8],  "5000000000000000000000000005");
 	strcpy_s(_cMaze[9],  "5200000000000000000000000025");
 	strcpy_s(_cMaze[10], "5222230000000000000002223225");
-	strcpy_s(_cMaze[11], "5222222222220000222222222225");
+	strcpy_s(_cMaze[11], "5222222222220000222222333335");
 	strcpy_s(_cMaze[12], "5000000000000000000000000005");
 	strcpy_s(_cMaze[13], "5000000000000000000000000005");
 	strcpy_s(_cMaze[14], "5000000000000000000000000005");
@@ -47,41 +47,73 @@ void Init(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer, PPOS _pStartpos)
 	srand((unsigned int)time(NULL));
 }
 
-void Update(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer)
+void Update(char _cMaze[VERTICAL][HORIZON], PBAR _pPlayer, Ball& ball, BAR& bar)
 {
-	// 플레이어 움직임
+	// 바 움직임
 	_pPlayer->tNewpos = _pPlayer->tpos;
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 		--_pPlayer->tNewpos.x;
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-		++_pPlayer->tNewpos.x;
+		++_pPlayer->tNewpos.x;	
 
-	/*if (ball.y == _pBar->tpos.y - 1 && ball.x >= _pBar->tpos.x && ball.x < _pBar->tpos.x + _pBar->tpos.width) {
+	//  바랑 공이랑 충돌 처리 
+	//  공이 바 오른쪽                왼쪽          
+	if (ball.x >= bar.tpos.x  && ball.x < bar.tpos.x + bar.tpos.width && ball.y+1 == bar.tpos.y  )
+	{
 		ball.dirY = -ball.dirY;
-	}*/
+	}
 
-	_pPlayer->tNewpos.x = std::clamp(_pPlayer->tNewpos.x, 0, HORIZON - 2);
+	//_pPlayer->tNewpos.x = std::clamp(_pPlayer->tNewpos.x, 0, HORIZON - 2);
 
-	if (_cMaze[_pPlayer->tNewpos.y][_pPlayer->tNewpos.x] != '1')
+	if (_cMaze[_pPlayer->tNewpos.y][_pPlayer->tNewpos.x] != '5')
 	{
 		_pPlayer->tpos = _pPlayer->tNewpos;
 	}
 
+	bool hasBrick = false; 
+
+#pragma region 클리어 조건
+	// 맵 내에 2가 있는지 확인
+	for (int y = 0; y < VERTICAL; ++y)
+	{
+		for (int x = 0; x < HORIZON; ++x)
+		{
+			if (_cMaze[y][x] == '2' || _cMaze[y][x] == '3')
+			{
+				hasBrick = true;
+				break;
+			}
+		}
+		if (hasBrick)
+			break;
+	}
+
+	// 벽돌이 없을 때 StageClear 실행
+	if (!hasBrick)
+	{
+		StageClear();
+	}
+#pragma endregion
 
 }
 
-void Render(char _cMaze[VERTICAL][HORIZON], PBAR _pBar, PBallPos _pBall) {
+void Render(char _cMaze[VERTICAL][HORIZON], PBAR _pBar, PBallPos _pBall, Item _item) {
 	for (int y = 0; y < VERTICAL; y++) {
 		for (int x = 0; x < HORIZON; x++) {
 			if (_pBar->tpos.x == x && _pBar->tpos.y == y) {
 				SetColor(15, 8);
-				cout << "ㅡㅡㅡ";
+				cout << "ㅁㅁㅁ";
 				continue;
 			}
 			if (_pBall->x == x && _pBall->y == y)
 			{
-				cout << " O";
+				cout << " o";
 				continue;
+			}
+			if (_item.active)
+			{
+				SetColor(3, 0);
+				_cMaze[static_cast<int>(_item.y)][static_cast<int>(_item.x)] = '★'; // 아이템을 렌더링5
 			}
 			// 볼을 찍어주면 되는데.
 			if (_cMaze[y][x] == '0') {
@@ -93,8 +125,8 @@ void Render(char _cMaze[VERTICAL][HORIZON], PBAR _pBar, PBallPos _pBall) {
 				cout << "■";
 			}
 			else if (_cMaze[y][x] == '2' || _cMaze[y][x] == '3') {
-				SetColor(6, 15);
-				cout << "▤";
+				SetColor(11, 0);
+				cout << "＊";
 			}
 
 		}

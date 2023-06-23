@@ -1,5 +1,7 @@
 #pragma once
 #include "define.h"
+#include "Item.h";
+
 typedef struct Ball
 {
      float x;
@@ -16,6 +18,6 @@ typedef struct BallVector
 }BALL, * PBALL;
 
 void BallInit(Ball& ball);
-void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON]);
+void BallUpdate(Ball& ball, char _cMaze[VERTICAL][HORIZON], Item& item);
 int StageClear();
 int GameOver();

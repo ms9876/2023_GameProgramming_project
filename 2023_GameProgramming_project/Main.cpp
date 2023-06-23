@@ -4,6 +4,7 @@
 #include"console.h"
 #include "GameLogic.h"
 #include "Ball.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -13,9 +14,8 @@ int main() {
 	POS tStartpos = {};
 	Ball ball{};
 	PBALL tball = {}; 
-	// Item..
-	
-	//Init(cMaze, &tPlayer, &tStartpos);
+	Item tItem = {};
+
 	Init(cMaze, &tPlayer, &tStartpos);
 	BallInit(ball);
 	while (true)
@@ -42,12 +42,11 @@ int main() {
 	while (true)
 	{
 		Gotoxy(0, 0);
-		Update(cMaze, &tPlayer);
-		BallUpdate(ball, cMaze);
+		BallUpdate(ball, cMaze, tItem);
+		Update(cMaze, &tPlayer, ball, tPlayer);
+		ItemUpdate(tItem, cMaze);
 
-		Render(cMaze, &tPlayer, &ball);
-		Sleep(50);
-
-		// BallRender(ball);
+		Render(cMaze, &tPlayer, &ball, tItem);
+		Sleep(100);
 	}
 } 

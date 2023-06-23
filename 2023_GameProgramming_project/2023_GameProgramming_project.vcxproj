@@ -22,6 +22,7 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="GameLogic.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="StartScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -29,8 +30,12 @@
     <ClCompile Include="Ball.h" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="GameLogic.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="StartScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="collider.wav" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
